@@ -64,7 +64,7 @@ export const Input = styled.input`
     }
     border: 4px solid #27569C;
     border-radius: 10px;
-    background-color: ${color.GRAY}
+    background-color: ${(props) => props.wrongData ? color.RED : color.GRAY};
 `
 
 export const Label = styled.label`

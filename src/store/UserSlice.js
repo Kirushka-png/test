@@ -2,13 +2,15 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: { isLogin: false, username: '' },
+  initialState: { isLogin: false, username: '', wrongData: { username: false, password: false } },
   reducers: {
     SignIn: (
       state,
       { payload: { username, password } }
     ) => {
-      state.isLogin = (username === 'username' && password === 'password')
+      state.wrongData.password = password !== 'password'
+      state.wrongData.username = username !== 'username'
+      state.isLogin = (!state.wrongData.password && !state.wrongData.username)
       if (state.isLogin) state.username = username
     },
     SignOut: (
@@ -17,10 +19,15 @@ const userSlice = createSlice({
       state.isLogin = false
       state.username = ''
     },
+    onChangeUserData: (
+      state
+    ) => {
+      state.wrongData = { username: false, password: false }
+    }
   },
 })
 
-export const { SignIn, SignOut } = userSlice.actions
+export const { SignIn, SignOut, onChangeUserData } = userSlice.actions
 
 export default userSlice.reducer
 
